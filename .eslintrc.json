@@ -4,7 +4,7 @@
     "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
-  "plugins": ["emotion"],
+  "plugins": ["@emotion"],
   "rules": {
     "@emotion/jsx-import": "error",
     "@emotion/no-vanilla": "error",

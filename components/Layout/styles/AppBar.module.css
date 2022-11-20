@@ -1,0 +1,39 @@
+.expanded {
+  box-shadow: none;
+  transition: 0.3s ease;
+  height: 8rem;
+}
+
+.collapsed {
+  transition: 0.5s ease;
+  transition-delay: 200ms;
+  background: transparent;
+  backdrop-filter: blur(6px);
+  height: 4rem;
+}
+
+.logo {
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  height: 3rem;
+  border-radius: 1.5rem;
+  margin-inline: 0.5rem;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* //   transition: scrollTrigger ? "1.2s ease-in" : "0.3s ease",
+//   transitionDelay: 0,
+//   opacity: scrollTrigger ? 1 : 0, */
+
+.logo_transition_white {
+  transition: 0.5s ease;
+  transition-delay: 200ms;
+  opacity: 0;
+}
+
+.logo_transition_color {
+  transition: 0.3s ease;
+  opacity: 1;
+}
