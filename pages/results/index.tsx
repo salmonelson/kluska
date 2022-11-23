@@ -3,7 +3,14 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-import { Typography, Stack, Box } from "@mui/material";
+import {
+  Typography,
+  Stack,
+  Box,
+  FormGroup,
+  Checkbox,
+  FormControlLabel,
+} from "@mui/material";
 
 import { FunctionComponent, useState } from "react";
 
@@ -12,19 +19,30 @@ import Link from "next/link";
 import type { NextPage } from "next";
 
 import ContentContainer from "../../components/Layout/ContentContainer";
+import OptionBar from "../../components/Results/OptionBar";
 
 const Results: NextPage = () => {
   const router = useRouter();
-  const { category } = router.query;
+  const { query, country, category, brand, page } = router.query;
+
+  // const [pageState, setPageState] = useState(page);
+  // const [queryState, setQueryState] = useState(query);
+  // const [countryState, setCountryState] = useState(country);
+  // const [categoryState, setCategoryState] = useState(category);
+  // const [brandState, setBrandState] = useState(brand);
 
   return (
-    <ContentContainer>
+    <>
       <Head>
         <title>Produkty - Pastopedia</title>
         <meta name="description" content="Na projekt P. Kluski" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-    </ContentContainer>
+
+      <ContentContainer>
+        <OptionBar />
+      </ContentContainer>
+    </>
   );
 };
 
