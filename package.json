@@ -29,6 +29,7 @@
     "eslint-plugin-emotion": "^11.0.0",
     "next": "13.0.1",
     "next-query-params": "^4.1.0",
+    "package-lock.json": "^1.0.0",
     "prettier": "^2.7.1",
     "qs": "^6.11.0",
     "react": "18.2.0",

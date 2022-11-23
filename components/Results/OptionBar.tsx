@@ -24,6 +24,8 @@ import {
   NumericObjectParam,
 } from "use-query-params";
 
+import OptionElement from "./OptionElement";
+
 import theme from "../../styles/theme";
 
 const OptionBar: FunctionComponent = () => {
@@ -41,34 +43,54 @@ const OptionBar: FunctionComponent = () => {
 
   const { search, country, category, brand, page } = query;
 
+  const handleCoutry = (value: number) => {
+    if (query.category.includes(value)) {
+      setQuery(
+        {
+          category: query.country.filter((element) => element !== value),
+        },
+        "pushIn"
+      );
+    } else {
+      setQuery({ country: [...query.country, value] }, "push");
+    }
+  };
+
+  const handleCategory = (value: number) => {
+    if (query.category.includes(value)) {
+      setQuery(
+        {
+          category: query.category.filter((element) => element !== value),
+        },
+        "pushIn"
+      );
+    } else {
+      setQuery({ category: [...query.category, value] }, "push");
+    }
+  };
+
+  const handleBrand = (value: number) => {
+    if (query.brand.includes(value)) {
+      setQuery(
+        {
+          category: query.brand.filter((element) => element !== value),
+        },
+        "pushIn"
+      );
+    } else {
+      setQuery({ brand: [...query.brand, value] }, "push");
+    }
+  };
+
   return (
     <Box sx={{ backgroundColor: "red", display: "inline-flex" }}>
       <Stack direction="column">
         <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={true}
-                onChange={() => {
-                  if (query.category.includes(4)) {
-                    setQuery(
-                      {
-                        category: query.category.filter(
-                          (element) => element !== 4
-                        ),
-                      },
-                      "pushIn"
-                    );
-                  } else {
-                    setQuery({ category: [...query.category, 4] }, "push");
-                  }
-                }}
-                icon={<AddBoxOutlinedIcon />}
-                checkedIcon={<IndeterminateCheckBoxIcon />}
-              />
-            }
-            label="Country 4"
-            sx={{ userSelect: "none" }}
+          <OptionElement
+            handleChange={() => handleCategory(3)}
+            param={query.category}
+            value={3}
+            label="Hiszpania"
           />
         </FormGroup>
       </Stack>
