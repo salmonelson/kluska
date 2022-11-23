@@ -5,8 +5,8 @@ import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
 
 interface OptionElementProps {
-  handleChange: void;
-  param: (number | null)[] | never[];
+  handleChange: VoidFunction;
+  param: (number | null)[];
   value: number;
   label: string;
 }

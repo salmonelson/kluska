@@ -69,6 +69,7 @@ const LowerBar: FunctionComponent<LowerBarProps> = ({ scrollTriggerValue }) => (
           />
         ))}
       </Stack>
+      {/* JAJCO */}
     </Box>
   </Box>
 );

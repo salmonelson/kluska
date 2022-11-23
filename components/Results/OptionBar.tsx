@@ -28,9 +28,37 @@ import OptionElement from "./OptionElement";
 
 import theme from "../../styles/theme";
 
-const OptionBar: FunctionComponent = () => {
-  const router = useRouter();
+import productData from "../../data/products.json";
 
+const brandArray: string[] = productData.map((element) => element.brand);
+let filtered: string[];
+
+brandArray.forEach((element) => if (!filtered.includes(element)){filtered.push(element)})
+
+console.log(filtered);
+
+// stuff
+
+const countries: string[] = [
+  "Wszystkie kraje",
+  "Włochy",
+  "Francja",
+  "Niemcy",
+  "Hiszpania",
+  "Stany Zjednoczone",
+];
+const categories: string[] = [
+  "Organiczne",
+  "Bezglutenowe",
+  "Bez GMO",
+  "Wegańskie",
+  "Koszerne",
+  "Pełnoziarniste",
+];
+
+//component
+
+const OptionBar: FunctionComponent = () => {
   const FiltersParam = withDefault(DelimitedNumericArrayParam, []);
 
   const [query, setQuery] = useQueryParams({
@@ -43,11 +71,11 @@ const OptionBar: FunctionComponent = () => {
 
   const { search, country, category, brand, page } = query;
 
-  const handleCoutry = (value: number) => {
-    if (query.category.includes(value)) {
+  const handleCountry = (value: number) => {
+    if (query.country.includes(value)) {
       setQuery(
         {
-          category: query.country.filter((element) => element !== value),
+          country: query.country.filter((element) => element !== value),
         },
         "pushIn"
       );
@@ -73,7 +101,7 @@ const OptionBar: FunctionComponent = () => {
     if (query.brand.includes(value)) {
       setQuery(
         {
-          category: query.brand.filter((element) => element !== value),
+          brand: query.brand.filter((element) => element !== value),
         },
         "pushIn"
       );
@@ -85,14 +113,41 @@ const OptionBar: FunctionComponent = () => {
   return (
     <Box sx={{ backgroundColor: "red", display: "inline-flex" }}>
       <Stack direction="column">
-        <FormGroup>
-          <OptionElement
-            handleChange={() => handleCategory(3)}
-            param={query.category}
-            value={3}
-            label="Hiszpania"
-          />
-        </FormGroup>
+        <Typography>Kraj pochodzenia</Typography>
+        {countries.map((element, index) => (
+          <FormGroup key={index}>
+            <OptionElement
+              handleChange={() => handleCountry(index)}
+              param={query.country}
+              value={index}
+              label={element}
+            />
+          </FormGroup>
+        ))}
+
+        <Typography>Filtry</Typography>
+        {categories.map((element, index) => (
+          <FormGroup key={index}>
+            <OptionElement
+              handleChange={() => handleCategory(index)}
+              param={query.category}
+              value={index}
+              label={element}
+            />
+          </FormGroup>
+        ))}
+
+        <Typography>Producent</Typography>
+        {categories.map((element, index) => (
+          <FormGroup key={index}>
+            <OptionElement
+              handleChange={() => handleCountry(index)}
+              param={query.country}
+              value={index}
+              label={element}
+            />
+          </FormGroup>
+        ))}
       </Stack>
     </Box>
   );
