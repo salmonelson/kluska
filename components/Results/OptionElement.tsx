@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Checkbox, FormControlLabel } from "@mui/material";
+import { Checkbox, FormControlLabel, Box } from "@mui/material";
 
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
@@ -17,18 +17,21 @@ const OptionElement: FunctionComponent<OptionElementProps> = ({
   value,
   label,
 }) => (
-  <FormControlLabel
-    control={
-      <Checkbox
-        checked={param.includes(value)}
-        onChange={handleChange}
-        icon={<AddBoxOutlinedIcon />}
-        checkedIcon={<IndeterminateCheckBoxIcon />}
-      />
-    }
-    label={label}
-    sx={{ userSelect: "none" }}
-  />
+  <Box sx={{ marginLeft: "40px", marginBlock: "-6px" }}>
+    <FormControlLabel
+      control={
+        <Checkbox
+          checked={param.includes(value)}
+          onChange={handleChange}
+          icon={<AddBoxOutlinedIcon />}
+          checkedIcon={<IndeterminateCheckBoxIcon />}
+          sx={{ color: "text.primary" }}
+        />
+      }
+      label={label}
+      sx={{ userSelect: "none" }}
+    />
+  </Box>
 );
 
 export default OptionElement;

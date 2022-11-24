@@ -9,6 +9,7 @@ import {
   FormGroup,
   Checkbox,
   FormControlLabel,
+  SxProps,
 } from "@mui/material";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
@@ -30,17 +31,9 @@ import theme from "../../styles/theme";
 
 import productData from "../../data/products.json";
 
-const brandArray: string[] = productData.map((element) => element.brand);
-let filtered: string[];
-
-brandArray.forEach((element) => if (!filtered.includes(element)){filtered.push(element)})
-
-console.log(filtered);
-
 // stuff
 
 const countries: string[] = [
-  "Wszystkie kraje",
   "Włochy",
   "Francja",
   "Niemcy",
@@ -55,6 +48,57 @@ const categories: string[] = [
   "Koszerne",
   "Pełnoziarniste",
 ];
+const brands: string[] = [
+  "Marella",
+  "Divella",
+  "L'Oro Del Sud",
+  "Di Martino",
+  "Giuseppe Cocco",
+  "De Cecco",
+  "Colavita",
+  "La Campofilone",
+  "Gentile",
+  "Farabella",
+  "Morelli",
+  "Camp'Oro",
+  "Valfleuri",
+  "Cipriani",
+  "DaVinci",
+  "Le Veneziane",
+  "Alce Nero",
+  "Borgo de Medici",
+  "Casino di Caprafico",
+  "Fusco",
+  "La Bottega",
+  "La Terra e il Cielo",
+  "Pastificio La Rosa",
+  "Dal Raccolto",
+  "La Pasta di Camerino",
+  "Tartuflanghe",
+  "Delverde",
+  "Savini Tartufi",
+  "Cucina & Amore",
+  "Mariella",
+  "Poggio del Farro",
+  "Spinosi",
+  "Alb-Gold",
+  "Bechtle",
+  "Coluccio",
+  "Mantova",
+  "Romero",
+  "Vantia",
+  "Alpina Savoie",
+  "Alta Valle Scrivia",
+  "Fratelli Minaglia",
+  "Mamma Angelica",
+];
+
+//styles
+
+const captionStyles: SxProps = {
+  marginLeft: "20px",
+  marginBlock: "6px",
+};
 
 //component
 
@@ -69,18 +113,17 @@ const OptionBar: FunctionComponent = () => {
     page: NumberParam,
   });
 
-  const { search, country, category, brand, page } = query;
-
   const handleCountry = (value: number) => {
     if (query.country.includes(value)) {
       setQuery(
         {
+          ...query,
           country: query.country.filter((element) => element !== value),
         },
-        "pushIn"
+        "push"
       );
     } else {
-      setQuery({ country: [...query.country, value] }, "push");
+      setQuery({ ...query, country: [...query.country, value] }, "push");
     }
   };
 
@@ -88,12 +131,13 @@ const OptionBar: FunctionComponent = () => {
     if (query.category.includes(value)) {
       setQuery(
         {
+          ...query,
           category: query.category.filter((element) => element !== value),
         },
-        "pushIn"
+        "push"
       );
     } else {
-      setQuery({ category: [...query.category, value] }, "push");
+      setQuery({ ...query, category: [...query.category, value] }, "push");
     }
   };
 
@@ -101,19 +145,31 @@ const OptionBar: FunctionComponent = () => {
     if (query.brand.includes(value)) {
       setQuery(
         {
+          ...query,
           brand: query.brand.filter((element) => element !== value),
         },
         "pushIn"
       );
     } else {
-      setQuery({ brand: [...query.brand, value] }, "push");
+      setQuery({ ...query, brand: [...query.brand, value] }, "push");
     }
   };
 
   return (
-    <Box sx={{ backgroundColor: "red", display: "inline-flex" }}>
+    <Box
+      sx={{
+        width: "270px",
+        bgcolor: "background.paper",
+        display: "inline-flex",
+        border: 1,
+        borderColor: "text.primary  ",
+        borderRadius: "15px",
+      }}
+    >
       <Stack direction="column">
-        <Typography>Kraj pochodzenia</Typography>
+        <Box sx={captionStyles}>
+          <Typography sx={{ fontWeight: "bold" }}>Kraj pochodzenia:</Typography>
+        </Box>
         {countries.map((element, index) => (
           <FormGroup key={index}>
             <OptionElement
@@ -125,7 +181,9 @@ const OptionBar: FunctionComponent = () => {
           </FormGroup>
         ))}
 
-        <Typography>Filtry</Typography>
+        <Box sx={captionStyles}>
+          <Typography sx={{ fontWeight: "bold" }}>Filtry:</Typography>
+        </Box>
         {categories.map((element, index) => (
           <FormGroup key={index}>
             <OptionElement
@@ -137,12 +195,14 @@ const OptionBar: FunctionComponent = () => {
           </FormGroup>
         ))}
 
-        <Typography>Producent</Typography>
-        {categories.map((element, index) => (
+        <Box sx={captionStyles}>
+          <Typography sx={{ fontWeight: "bold" }}>Producent:</Typography>
+        </Box>
+        {brands.map((element, index) => (
           <FormGroup key={index}>
             <OptionElement
-              handleChange={() => handleCountry(index)}
-              param={query.country}
+              handleChange={() => handleBrand(index)}
+              param={query.brand}
               value={index}
               label={element}
             />

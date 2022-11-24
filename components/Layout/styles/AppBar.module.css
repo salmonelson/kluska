@@ -1,12 +1,11 @@
 .expanded {
-  box-shadow: none;
   transition: 0.3s ease;
   height: 8rem;
 }
 
 .collapsed {
   transition: 0.5s ease;
-  transition-delay: 200ms;
+  /* transition-delay: 200ms; */
   background: transparent;
   backdrop-filter: blur(6px);
   height: 4rem;
@@ -14,7 +13,7 @@
 
 .logo {
   border-style: solid;
-  border-color: black;
+  border-color: #212121;
   border-width: 1px;
   height: 3rem;
   border-radius: 1.5rem;
@@ -29,7 +28,7 @@
 
 .logo_transition_white {
   transition: 0.5s ease;
-  transition-delay: 200ms;
+  /* transition-delay: 200ms; */
   opacity: 0;
 }
 
