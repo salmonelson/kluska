@@ -74,6 +74,12 @@ const Results: NextPage = () => {
         : true)
   );
 
+  const productsReady: Product[][] = [];
+
+  while (filtered.length > 0) {
+    productsReady.push(filtered.splice(0, 30));
+  }
+
   const breadcrumbs = [
     <Link className={styles.breadcrumbs} key="1" href="/">
       Pastopedia
@@ -113,10 +119,7 @@ const Results: NextPage = () => {
           >
             {breadcrumbs}
           </Breadcrumbs>
-          <Typography>
-            ({filtered.length} wyników, category: {query.category}, country:{" "}
-            {query.country}, brand: {query.brand})
-          </Typography>
+          <Typography>({filtered.length} wyników)</Typography>
         </Box>
         {/* OPTIONS AND PRODUCTS WRAPPER */}
         <Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -156,7 +159,8 @@ const Results: NextPage = () => {
           }}
         >
           <Pagination
-            count={10}
+            count={productsReady.length}
+            page={query.page === null ? 1 : query.page}
             variant="outlined"
             color="secondary"
             size="large"

@@ -51,12 +51,14 @@ const ProductElement: FunctionComponent<ProductElementProps> = ({
       borderColor: "transparent",
       borderRadius: "15px",
       transition: "0.2  s ease",
+      position: "relative",
       "&:hover": {
         borderColor: "text.primary",
       },
     }}
   >
     <Link href="/">
+      {/* IMGAGE AND CAPTIONS */}
       <Image
         className={styles.product_image}
         src={product.img}
@@ -86,6 +88,9 @@ const ProductElement: FunctionComponent<ProductElementProps> = ({
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          bottom: "12px",
+          position: "absolute",
+          width: "290px",
         }}
       >
         <Typography
