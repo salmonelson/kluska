@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useRouter } from "next/router";
 
 import {
   Typography,
@@ -22,7 +21,6 @@ import {
   NumberParam,
   withDefault,
   DelimitedNumericArrayParam,
-  NumericObjectParam,
 } from "use-query-params";
 
 import OptionElement from "./OptionElement";
@@ -118,12 +116,16 @@ const OptionBar: FunctionComponent = () => {
       setQuery(
         {
           ...query,
+          page: undefined,
           country: query.country.filter((element) => element !== value),
         },
         "push"
       );
     } else {
-      setQuery({ ...query, country: [...query.country, value] }, "push");
+      setQuery(
+        { ...query, page: undefined, country: [...query.country, value] },
+        "push"
+      );
     }
   };
 
@@ -132,12 +134,16 @@ const OptionBar: FunctionComponent = () => {
       setQuery(
         {
           ...query,
+          page: undefined,
           category: query.category.filter((element) => element !== value),
         },
         "push"
       );
     } else {
-      setQuery({ ...query, category: [...query.category, value] }, "push");
+      setQuery(
+        { ...query, page: undefined, category: [...query.category, value] },
+        "push"
+      );
     }
   };
 
@@ -146,14 +152,20 @@ const OptionBar: FunctionComponent = () => {
       setQuery(
         {
           ...query,
+          page: undefined,
           brand: query.brand.filter((element) => element !== value),
         },
         "pushIn"
       );
     } else {
-      setQuery({ ...query, brand: [...query.brand, value] }, "push");
+      setQuery(
+        { ...query, page: undefined, brand: [...query.brand, value] },
+        "push"
+      );
     }
   };
+
+  //RETURN
 
   return (
     <Box
@@ -168,7 +180,9 @@ const OptionBar: FunctionComponent = () => {
     >
       <Stack direction="column">
         <Box sx={captionStyles}>
-          <Typography sx={{ fontWeight: "bold" }}>Kraj pochodzenia:</Typography>
+          <Typography sx={{ fontWeight: "bold", marginTop: "5px" }}>
+            Kraj pochodzenia:
+          </Typography>
         </Box>
         {countries.map((element, index) => (
           <FormGroup key={index}>
@@ -208,6 +222,7 @@ const OptionBar: FunctionComponent = () => {
             />
           </FormGroup>
         ))}
+        <br />
       </Stack>
     </Box>
   );

@@ -1,22 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
-import { jsx } from "@emotion/react";
-import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
-import {
-  IconButton,
-  Breadcrumbs,
-  Typography,
-  Stack,
-  Divider,
-  Box,
-  FormGroup,
-  Checkbox,
-  FormControlLabel,
-} from "@mui/material";
+import { IconButton, Typography, Box } from "@mui/material";
 import AddShoppingCartRoundedIcon from "@mui/icons-material/AddShoppingCartRounded";
 
 import { FunctionComponent } from "react";
@@ -26,6 +13,7 @@ import styles from "../../pages/results/results.module.css";
 import options from "../../data/options.json";
 
 interface Product {
+  id: number;
   title: string;
   category: number[];
   country: number;
@@ -41,7 +29,6 @@ interface ProductElementProps {
 
 const ProductElement: FunctionComponent<ProductElementProps> = ({
   product,
-  index,
 }) => (
   <Box
     sx={{
@@ -57,7 +44,7 @@ const ProductElement: FunctionComponent<ProductElementProps> = ({
       },
     }}
   >
-    <Link href="/">
+    <Link href={`/product/${product.id}`}>
       {/* IMGAGE AND CAPTIONS */}
       <Image
         className={styles.product_image}
@@ -69,17 +56,26 @@ const ProductElement: FunctionComponent<ProductElementProps> = ({
       />
     </Link>
     <Box sx={{ marginInline: "16px" }}>
-      <Link className={styles.link} href="/">
+      <Link
+        className={styles.link}
+        href={`/results?brand=${options.brands.indexOf(product.brand)}`}
+      >
         {product.brand}
       </Link>
       <br />
-      <Link className={`${styles.link} ${styles.title}`} href="/">
+      <Link
+        className={`${styles.link} ${styles.title}`}
+        href={`/product/${product.id}`}
+      >
         {product.title}
       </Link>
       <br />
       <Typography>
         Kraj pochodzenia:{" "}
-        <Link className={styles.link} href="/">
+        <Link
+          className={styles.link}
+          href={`/results?country=${product.country}`}
+        >
           {options.countries[product.country]}
         </Link>
       </Typography>
@@ -99,6 +95,7 @@ const ProductElement: FunctionComponent<ProductElementProps> = ({
             marginLeft: "2px",
             fontSize: "1.4rem",
             fontFamily: "Lato, sans-serif",
+            borderBottom: 1,
           }}
         >
           {product.price} zł

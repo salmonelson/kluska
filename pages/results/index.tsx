@@ -1,8 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-import { jsx } from "@emotion/react";
 import Head from "next/head";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -10,12 +8,9 @@ import {
   Pagination,
   Breadcrumbs,
   Typography,
-  Stack,
+  Chip,
   Divider,
   Box,
-  FormGroup,
-  Checkbox,
-  FormControlLabel,
 } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
@@ -25,10 +20,9 @@ import {
   NumberParam,
   withDefault,
   DelimitedNumericArrayParam,
-  NumericObjectParam,
 } from "use-query-params";
 
-import { FunctionComponent, useState } from "react";
+import { useEffect, useState } from "react";
 
 import theme from "../../styles/theme";
 import type { NextPage } from "next";
@@ -44,6 +38,7 @@ import database from "../../data/products.json";
 import options from "../../data/options.json";
 
 interface Product {
+  id: number;
   title: string;
   category: number[];
   country: number;
@@ -51,6 +46,8 @@ interface Product {
   price: number;
   img: string;
 }
+
+//COMPONENT
 
 const Results: NextPage = () => {
   const FiltersParam = withDefault(DelimitedNumericArrayParam, []);
@@ -63,6 +60,8 @@ const Results: NextPage = () => {
     page: NumberParam,
   });
 
+  const [page, setPage] = useState(1);
+
   const commonCategory = (element: number) => query.category.includes(element);
 
   const filtered = database.filter(
@@ -71,14 +70,25 @@ const Results: NextPage = () => {
       (query.category.length > 0 ? el.category.some(commonCategory) : true) &&
       (query.brand.length > 0
         ? query.brand.includes(options.brands.indexOf(el.brand))
+        : true) &&
+      (query.search === undefined || query.search === null
+        ? true
+        : query.search.length > 0
+        ? el.title.toLowerCase().includes(query.search.toLowerCase())
         : true)
   );
+
+  const numOfProducts = filtered.length;
 
   const productsReady: Product[][] = [];
 
   while (filtered.length > 0) {
     productsReady.push(filtered.splice(0, 30));
   }
+
+  const handleDelete = () => {
+    setQuery({ ...query, search: undefined }, "push");
+  };
 
   const breadcrumbs = [
     <Link className={styles.breadcrumbs} key="1" href="/">
@@ -89,18 +99,36 @@ const Results: NextPage = () => {
     </Link>,
     query.search === undefined ? null : (
       <Typography key="3" color={"text.primary"}>
-        „{query.search}”
+        Wyszikuwanie:{" "}
+        <Chip
+          label={`„${query.search}”`}
+          variant="outlined"
+          onDelete={handleDelete}
+          sx={{ fontSize: "0.9rem", height: "1.6rem" }}
+        />
       </Typography>
     ),
   ];
 
-  console.log(query.brand);
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+    setQuery({ ...query, page: value }, "push");
+  };
+
+  useEffect(() => {
+    setPage(query.page === undefined || query.page === null ? 1 : query.page);
+  }, [query.page]);
+
+  //RETURN
 
   return (
     <>
       <Head>
         <title>Produkty - Pastopedia</title>
-        <meta name="description" content="Na projekt P. Kluski" />
+        <meta name="description" content="result page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -119,10 +147,10 @@ const Results: NextPage = () => {
           >
             {breadcrumbs}
           </Breadcrumbs>
-          <Typography>({filtered.length} wyników)</Typography>
+          <Typography>({numOfProducts} wyników)</Typography>
         </Box>
-        {/* OPTIONS AND PRODUCTS WRAPPER */}
         <Box sx={{ display: "flex", flexDirection: "row" }}>
+          {/* OPTIONS*/}
           <Box
             sx={{
               display: "flex",
@@ -132,13 +160,28 @@ const Results: NextPage = () => {
           >
             <OptionBar />
           </Box>
+          {/* PRODUCTS WRAPPER  */}
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
+              width: "1000px",
             }}
           >
             {/* PRODUCTS */}
+            <Pagination
+              count={productsReady.length}
+              page={page}
+              variant="outlined"
+              color="secondary"
+              size="large"
+              onChange={handlePageChange}
+              sx={{
+                marginInline: "auto",
+                marginBottom: "24px",
+                color: "text.primary",
+              }}
+            />
             <Box
               sx={{
                 display: "flex",
@@ -146,10 +189,33 @@ const Results: NextPage = () => {
                 justifyContent: "space-evenly",
               }}
             >
-              {filtered.map((element, index) => (
-                <ProductElement key={index} product={element} index={index} />
-              ))}
+              {numOfProducts > 0
+                ? productsReady[
+                    query.page === undefined || query.page === null
+                      ? 0
+                      : query.page - 1
+                  ].map((element, index) => (
+                    <ProductElement
+                      key={index}
+                      product={element}
+                      index={index}
+                    />
+                  ))
+                : "jajco"}
             </Box>
+            <Pagination
+              count={productsReady.length}
+              page={page}
+              variant="outlined"
+              color="secondary"
+              size="large"
+              onChange={handlePageChange}
+              sx={{
+                marginInline: "auto",
+                marginTop: "24px",
+                color: "text.primary",
+              }}
+            />
           </Box>
         </Box>
         <Box
@@ -157,19 +223,7 @@ const Results: NextPage = () => {
             height: "100px",
             display: "flex",
           }}
-        >
-          <Pagination
-            count={productsReady.length}
-            page={query.page === null ? 1 : query.page}
-            variant="outlined"
-            color="secondary"
-            size="large"
-            sx={{
-              margin: "auto",
-              color: "text.primary",
-            }}
-          />
-        </Box>
+        ></Box>
       </ContentContainer>
     </>
   );
