@@ -21,6 +21,7 @@
     "@types/node": "18.11.9",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
+    "cookies-next": "^2.1.1",
     "dotenv": "^16.0.3",
     "emotion": "^11.0.0",
     "eslint": "^8.26.0",
@@ -28,10 +29,14 @@
     "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-emotion": "^11.0.0",
     "next": "13.0.1",
+    "next-query-params": "^4.1.0",
+    "package-lock.json": "^1.0.0",
     "prettier": "^2.7.1",
+    "qs": "^6.11.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript-eslint": "^0.0.1-alpha.0"
+    "typescript-eslint": "^0.0.1-alpha.0",
+    "use-query-params": "^2.1.2"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.43.0",

@@ -5,6 +5,14 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import { FunctionComponent, useState } from "react";
 
+import {
+  useQueryParams,
+  StringParam,
+  withDefault,
+  DelimitedNumericArrayParam,
+} from "use-query-params";
+import Router, { useRouter } from "next/router";
+
 import theme from "../../styles/theme";
 
 import MyPopper from "./MyPopper";
@@ -90,15 +98,48 @@ const countryString: string[] = [
 //component
 
 const SearchBar: FunctionComponent = ({}) => {
-  const [country, setCountry] = useState<number>(0);
+  const [countryVal, setCountryVal] = useState<number>(0);
   const [countryOpen, setCountryOpen] = useState(false);
+  const [searchVal, setSearchVal] = useState("");
+
+  const FiltersParam = withDefault(DelimitedNumericArrayParam, []);
+
+  const router = useRouter();
+
+  const [query, setQuery] = useQueryParams({
+    search: StringParam,
+    country: StringParam,
+  });
+
+  const handleSearch = () => {
+    setQuery(
+      {
+        search: searchVal,
+        country: countryVal == 0 ? undefined : countryVal - 1,
+      },
+      "replace"
+    );
+    Router.push(
+      `/results?search=${searchVal}${
+        countryVal == 0 ? "" : `&country=${countryVal - 1}`
+      }`
+    );
+  };
 
   return (
     <Box sx={componentWprapper}>
       <TextField
+        value={searchVal}
         onChange={(e) => {
-          console.log(e.target.value); //placeholder
+          setSearchVal(e.target.value);
         }}
+        onKeyPress={(ev) => {
+          if (ev.key === "Enter") {
+            handleSearch();
+            ev.preventDefault();
+          }
+        }}
+        onSubmit={handleSearch}
         hiddenLabel
         placeholder="Czego szukasz?"
         id="search-field"
@@ -114,17 +155,17 @@ const SearchBar: FunctionComponent = ({}) => {
           buttonChildren={
             <Box sx={{ marginInline: "20px", marginTop: "0.25rem" }}>
               <Typography gutterBottom sx={{ fontSize: "0.9 rem" }}>
-                {countryString[country]}
+                {countryString[countryVal]}
               </Typography>
             </Box>
           }
           popperChildren={
             <CountryPopperChildren
               isCategoryOpen={countryOpen}
-              categoryValue={country}
+              categoryValue={countryVal}
               containerWidth={"175px"}
               handleClose={() => setCountryOpen(false)}
-              handleSetCategory={(c) => setCountry(c)}
+              handleSetCategory={(c) => setCountryVal(c)}
             />
           }
           isCategoryOpen={countryOpen}
@@ -133,7 +174,7 @@ const SearchBar: FunctionComponent = ({}) => {
         />
 
         {/* Search button */}
-        <Box sx={searchButtonStyles}>
+        <Box sx={searchButtonStyles} onClick={handleSearch}>
           <SearchIcon sx={{ marginTop: "0.2rem" }} />
         </Box>
       </Box>

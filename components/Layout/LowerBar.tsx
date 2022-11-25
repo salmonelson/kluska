@@ -43,7 +43,7 @@ const LowerBar: FunctionComponent<LowerBarProps> = ({ scrollTriggerValue }) => (
   //   </Fade>
   <Box
     sx={{
-      transitionDelay: scrollTriggerValue ? "0.2s" : "0.1s",
+      transitionDelay: scrollTriggerValue ? "0s" : "0.1s",
       visibility: scrollTriggerValue ? "hidden" : "visible",
     }}
   >
@@ -69,6 +69,7 @@ const LowerBar: FunctionComponent<LowerBarProps> = ({ scrollTriggerValue }) => (
           />
         ))}
       </Stack>
+      {/* JAJCO */}
     </Box>
   </Box>
 );

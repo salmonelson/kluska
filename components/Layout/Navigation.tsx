@@ -13,7 +13,7 @@ import {
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 
 import theme from "../../styles/theme";
 import Link from "next/link";

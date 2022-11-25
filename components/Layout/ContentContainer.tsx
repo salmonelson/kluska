@@ -8,6 +8,8 @@ import theme from "../../styles/theme";
 const contentContainerStyles: SxProps = {
   marginInline: "auto",
   marginTop: "8rem",
+  display: "flex",
+  flexDirection: "column",
   [theme.breakpoints.down("lg")]: {
     width: "calc(100%)",
   },
