@@ -46,7 +46,7 @@ const CountryPopperChildren: FunctionComponent<CountryPopperChildrenProps> = ({
       ...searchBarStyles,
       //   borderTop: 0,
       margin: "-1",
-      backgroundColor: "#F5CA50",
+      backgroundColor: "primary.main",
       width: `${containerWidth}`,
       height: "fit-content",
       float: "right",

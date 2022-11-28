@@ -24,7 +24,6 @@ import {
 
 import { useEffect, useState } from "react";
 
-import theme from "../../styles/theme";
 import type { NextPage } from "next";
 
 import ContentContainer from "../../components/Layout/ContentContainer";
@@ -97,7 +96,7 @@ const Results: NextPage = () => {
     <Link className={styles.breadcrumbs} key="2" href="/results">
       Przeglądanie
     </Link>,
-    query.search === undefined ? null : (
+    query.search === undefined || query.search?.length == 0 ? null : (
       <Typography key="3" color={"text.primary"}>
         Wyszikuwanie:{" "}
         <Chip
@@ -170,6 +169,7 @@ const Results: NextPage = () => {
           >
             {/* PRODUCTS */}
             <Pagination
+              hidden={numOfProducts < 30}
               count={productsReady.length}
               page={page}
               variant="outlined"
@@ -189,21 +189,34 @@ const Results: NextPage = () => {
                 justifyContent: "space-evenly",
               }}
             >
-              {numOfProducts > 0
-                ? productsReady[
-                    query.page === undefined || query.page === null
-                      ? 0
-                      : query.page - 1
-                  ].map((element, index) => (
-                    <ProductElement
-                      key={index}
-                      product={element}
-                      index={index}
-                    />
-                  ))
-                : "jajco"}
+              {numOfProducts > 0 ? (
+                productsReady[
+                  query.page === undefined || query.page === null
+                    ? 0
+                    : query.page - 1
+                ].map((element, index) => (
+                  <ProductElement key={index} product={element} index={index} />
+                ))
+              ) : (
+                <>
+                  <Typography
+                    variant="h5"
+                    fontWeight={"bold"}
+                    marginTop="30px"
+                    marginBottom="10px"
+                  >
+                    Przepraszamy, nie znaleźliśmy wyników spełniających podane
+                    wymagania.
+                  </Typography>
+                  <Typography>
+                    Spróbuj odznaczyć niektóre z filtrów lub użyć prostszych
+                    fraz.
+                  </Typography>
+                </>
+              )}
             </Box>
             <Pagination
+              hidden={numOfProducts < 30}
               count={productsReady.length}
               page={page}
               variant="outlined"
