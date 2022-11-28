@@ -12,9 +12,9 @@ import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import { useAppDispatch } from "../redux/hooks";
 
 import { useState } from "react";
-
 import type { NextPage } from "next";
 
+import Carousel from "react-material-ui-carousel";
 import ContentContainer from "../components/Layout/ContentContainer";
 
 import database from "../data/products.json";
@@ -42,23 +42,47 @@ const Home: NextPage = () => {
         <meta name="description" content="product page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      {/* CAROUSEL */}
       <ContentContainer>
+        <Carousel
+          navButtonsAlwaysVisible
+          autoPlay
+          animation="slide"
+          indicators={false}
+          navButtonsWrapperProps={{ style: { marginBlock: "auto" } }}
+          sx={{
+            width: "1400px",
+            height: "300px",
+            marginBlock: "25px",
+            borderRadius: "15px",
+          }}
+        >
+          <Box component="img" src="/bground.png" alt="Carousel"></Box>
+          <Box component="img" src="/bground.png" alt="Carousel"></Box>
+          <Box component="img" src="/bground.png" alt="Carousel"></Box>
+        </Carousel>
+
+        {/*  PRODUCTS/CONTENT WRAPPER */}
         <Box
           sx={{
-            width: "1350px",
-            height: "300px",
-            margin: "25px",
-            bgcolor: "red",
-            borderRadius: "15px",
-            border: 2,
-            borderColor: "transparent",
-            position: "relative",
-            "&:hover": {
-              borderColor: "text.primary",
-            },
+            width: "1400px",
+            height: "700px",
+            display: "flex",
+            flexDirection: "row",
+            // bgcolor: "black",
           }}
-        ></Box>
+        >
+          <Box
+            sx={{
+              width: "400px",
+              height: "600px",
+              border: 3,
+              borderColor: "text.primary",
+              borderRadius: "15px",
+              position: "relative",
+            }}
+          ></Box>
+        </Box>
       </ContentContainer>
     </>
   );
