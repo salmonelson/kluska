@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { FunctionComponent } from "react";
 
 import { IconButton, Typography, Box } from "@mui/material";
 import AddShoppingCartRoundedIcon from "@mui/icons-material/AddShoppingCartRounded";
 
-import { FunctionComponent } from "react";
+import { useAppDispatch } from "../../redux/hooks";
+import { addToCart } from "../../redux/cartSlice";
 
 import styles from "../../pages/results/results.module.css";
 
@@ -29,97 +31,101 @@ interface ProductElementProps {
 
 const ProductElement: FunctionComponent<ProductElementProps> = ({
   product,
-}) => (
-  <Box
-    sx={{
-      width: "320px",
-      height: "480px",
-      border: 1,
-      borderColor: "transparent",
-      borderRadius: "15px",
-      transition: "0.2  s ease",
-      position: "relative",
-      "&:hover": {
-        borderColor: "text.primary",
-      },
-    }}
-  >
-    <Link href={`/product/${product.id}`}>
-      {/* IMGAGE AND CAPTIONS */}
-      <Image
-        className={styles.product_image}
-        src={product.img}
-        alt="Obraz"
-        objectFit="cover"
-        width={260}
-        height={260}
-      />
-    </Link>
-    <Box sx={{ marginInline: "16px" }}>
-      <Link
-        className={styles.link}
-        href={`/results?brand=${options.brands.indexOf(product.brand)}`}
-      >
-        {product.brand}
+}) => {
+  const dispatch = useAppDispatch();
+
+  return (
+    <Box
+      sx={{
+        width: "320px",
+        height: "480px",
+        border: 1,
+        borderColor: "transparent",
+        borderRadius: "15px",
+        transition: "0.2  s ease",
+        position: "relative",
+        "&:hover": {
+          borderColor: "text.primary",
+        },
+      }}
+    >
+      <Link href={`/produkt/${product.id}`}>
+        {/* IMGAGE AND CAPTIONS */}
+        <Image
+          className={styles.product_image}
+          src={product.img}
+          alt="Obraz"
+          objectFit="cover"
+          width={260}
+          height={260}
+        />
       </Link>
-      <br />
-      <Link
-        className={`${styles.link} ${styles.title}`}
-        href={`/product/${product.id}`}
-      >
-        {product.title}
-      </Link>
-      <br />
-      <Typography>
-        Kraj pochodzenia:{" "}
+      <Box sx={{ marginInline: "16px" }}>
         <Link
           className={styles.link}
-          href={`/results?country=${product.country}`}
+          href={`/results?brand=${options.brands.indexOf(product.brand)}`}
         >
-          {options.countries[product.country]}
+          {product.brand}
         </Link>
-      </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          bottom: "12px",
-          position: "absolute",
-          width: "290px",
-        }}
-      >
-        <Typography
-          sx={{
-            marginBlock: "auto",
-            marginLeft: "2px",
-            fontSize: "1.4rem",
-            fontFamily: "Lato, sans-serif",
-            borderBottom: 1,
-          }}
+        <br />
+        <Link
+          className={`${styles.link} ${styles.title}`}
+          href={`/produkt/${product.id}`}
         >
-          {product.price} zł
+          {product.title}
+        </Link>
+        <br />
+        <Typography>
+          Kraj pochodzenia:{" "}
+          <Link
+            className={styles.link}
+            href={`/results?country=${product.country}`}
+          >
+            {options.countries[product.country]}
+          </Link>
         </Typography>
-        <IconButton
-          aria-label="add-to-cart"
-          size="large"
+        <Box
           sx={{
-            border: 1,
-            borderColor: "transparent",
-            transition: "0.2s ease",
-
-            "&:hover": {
-              transition: "0.2s ease",
-              borderColor: "text.primary",
-              color: "#BE931B",
-            },
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            bottom: "12px",
+            position: "absolute",
+            width: "290px",
           }}
         >
-          <AddShoppingCartRoundedIcon fontSize="inherit" color="inherit" />
-        </IconButton>
+          <Typography
+            sx={{
+              marginBlock: "auto",
+              marginLeft: "2px",
+              fontSize: "1.4rem",
+              borderBottom: 1,
+            }}
+          >
+            {product.price} zł
+          </Typography>
+          <IconButton
+            onClick={() => dispatch(addToCart({ id: product.id }))}
+            aria-label="add-to-cart"
+            size="large"
+            sx={{
+              border: 1,
+              borderColor: "transparent",
+              transition: "0.2s ease",
+
+              "&:hover": {
+                transition: "0.2s ease",
+                borderColor: "text.primary",
+                color: "#BE931B",
+              },
+            }}
+          >
+            <AddShoppingCartRoundedIcon fontSize="inherit" color="inherit" />
+          </IconButton>
+        </Box>
       </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 export default ProductElement;

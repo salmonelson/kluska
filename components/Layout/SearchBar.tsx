@@ -67,7 +67,7 @@ const textFieldStyles: SxProps = {
 
 const searchButtonStyles: SxProps = {
   ...searchBarStyles,
-  backgroundColor: "#F5CA50",
+  backgroundColor: "primary.main",
   width: "2rem",
   minWidth: "2rem",
   height: "2rem",
@@ -101,8 +101,6 @@ const SearchBar: FunctionComponent = ({}) => {
   const [countryVal, setCountryVal] = useState<number>(0);
   const [countryOpen, setCountryOpen] = useState(false);
   const [searchVal, setSearchVal] = useState("");
-
-  const FiltersParam = withDefault(DelimitedNumericArrayParam, []);
 
   const router = useRouter();
 

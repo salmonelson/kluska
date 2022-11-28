@@ -14,6 +14,9 @@ import ErrorBoundary from "../components/ErrorHandling/ErrorBoundary";
 import { NextAdapter } from "next-query-params";
 import { QueryParamProvider } from "use-query-params";
 
+import { Provider } from "react-redux";
+import store from "../redux/store";
+
 //Client-side cache for user per session
 const clientSideEmotionCache = createCache({
   key: "css",
@@ -27,29 +30,31 @@ interface MyAppProps extends AppProps {
 const App = (props: MyAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
-    <QueryParamProvider adapter={NextAdapter}>
-      <ErrorBoundary>
-        <StyledEngineProvider injectFirst>
-          <CacheProvider value={emotionCache}>
-            <Head>
-              <title>Kluska</title>
-              <meta
-                name="viewport"
-                content="initial-scale=1, width=device-width"
-              />
-            </Head>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              {/* Layout around Component */}
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-              {/* Layout around Component */}
-            </ThemeProvider>
-          </CacheProvider>
-        </StyledEngineProvider>
-      </ErrorBoundary>
-    </QueryParamProvider>
+    <Provider store={store}>
+      <QueryParamProvider adapter={NextAdapter}>
+        <ErrorBoundary>
+          <StyledEngineProvider injectFirst>
+            <CacheProvider value={emotionCache}>
+              <Head>
+                <title>Pastopedia</title>
+                <meta
+                  name="viewport"
+                  content="initial-scale=1, width=device-width"
+                />
+              </Head>
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                {/* Layout around Component */}
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+                {/* Layout around Component */}
+              </ThemeProvider>
+            </CacheProvider>
+          </StyledEngineProvider>
+        </ErrorBoundary>
+      </QueryParamProvider>
+    </Provider>
   );
 };
 

@@ -1,0 +1,29 @@
+.popper {
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  white-space: nowrap;
+  background-color: white;
+  text-align: center;
+  min-width: 3rem;
+  height: 3rem;
+  float: left;
+  user-select: none;
+  transition: 140ms ease;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.popper:hover {
+  cursor: pointer;
+}
+
+.active {
+  border-radius: 1.5rem 1.5rem 0 0;
+}
+
+.inactive {
+  border-radius: 1.5rem;
+  transition-delay: 140ms;
+}

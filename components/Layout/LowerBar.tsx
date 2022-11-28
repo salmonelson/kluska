@@ -63,7 +63,7 @@ const LowerBar: FunctionComponent<LowerBarProps> = ({ scrollTriggerValue }) => (
             key={element}
             text={element}
             link={{
-              pathname: "results",
+              pathname: "/results",
               query: { category: `${index}` },
             }}
           />

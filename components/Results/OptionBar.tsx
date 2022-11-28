@@ -27,8 +27,6 @@ import OptionElement from "./OptionElement";
 
 import theme from "../../styles/theme";
 
-import productData from "../../data/products.json";
-
 // stuff
 
 const countries: string[] = [

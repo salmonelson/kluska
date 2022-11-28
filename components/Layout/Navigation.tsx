@@ -11,16 +11,15 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
-import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 
 import { FunctionComponent } from "react";
 
 import theme from "../../styles/theme";
 import Link from "next/link";
 
-import MyPopper from "./MyPopper";
 import LowerBar from "./LowerBar";
 import SearchBar from "./SearchBar";
+import CartPopper from "./CartPopper";
 
 //STYLES
 
@@ -126,35 +125,8 @@ const Navigation: FunctionComponent = () => {
               }}
             />
           </Box>
-          <Box
-            sx={{
-              ...searchBarStyles,
-              margin: "1",
-              minWidth: "3rem",
-              textAlign: "center",
-              display: "flex",
-              "&:hover": {
-                cursor: "pointer",
-              },
-            }}
-          >
-            <Typography
-              sx={{
-                marginLeft: "12px",
-                marginTop: "0.7rem",
-                // display: "none",  DISAPPEAR
-              }}
-            >
-              Koszyk
-            </Typography>
-            <ShoppingCartRoundedIcon
-              sx={{
-                fontSize: "2rem",
-                marginTop: "0.4rem",
-                marginInline: "0.4rem",
-              }}
-            />
-          </Box>
+
+          <CartPopper />
         </Stack>
       </Box>
 
