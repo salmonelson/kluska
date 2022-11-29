@@ -113,7 +113,7 @@ const SearchBar: FunctionComponent = ({}) => {
     setQuery(
       {
         search: searchVal,
-        country: countryVal == 0 ? undefined : countryVal - 1,
+        country: countryVal == 0 ? undefined : String(countryVal - 1),
       },
       "replace"
     );

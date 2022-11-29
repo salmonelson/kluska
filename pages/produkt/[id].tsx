@@ -8,21 +8,29 @@ import { useRouter } from "next/router";
 import { Typography, Divider, Box, IconButton } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import AddShoppingCartRoundedIcon from "@mui/icons-material/AddShoppingCartRounded";
 
+import { useAppSelector } from "../../redux/hooks";
 import { useAppDispatch } from "../../redux/hooks";
 import { addToCart } from "../../redux/cartSlice";
 
-import { useState } from "react";
+import { FunctionComponent, useState } from "react";
 
 import type { NextPage } from "next";
 
 import ContentContainer from "../../components/Layout/ContentContainer";
 
 import database from "../../data/products.json";
-
 import options from "../../data/options.json";
+import text from "../../data/const.json";
+
+import styles from "../../pages/results/results.module.css";
 
 const imgPlaceholder = "/logo-white-bold.png";
+
+interface HomeProductProps {
+  index: number;
+}
 
 //COMPONENT
 
@@ -34,6 +42,89 @@ const Produkt: NextPage = () => {
   const dispatch = useAppDispatch();
 
   const [quantity, setQuantity] = useState(1);
+
+  const cart = useAppSelector((state) => state.cart);
+
+  // TRASH
+  const HomeProduct: FunctionComponent<HomeProductProps> = ({ index }) => {
+    return (
+      <Box
+        sx={{
+          width: "300px",
+          height: "400px",
+          border: 1,
+          borderColor: "text.primary",
+          borderRadius: "15px",
+          position: "relative",
+          marginBottom: "50px",
+        }}
+      >
+        <Link href={`/produkt/${database[index].id}`}>
+          {/* IMGAGE AND CAPTIONS */}
+          <Image
+            className={styles.product_image}
+            style={{ margin: "10px 25px" }}
+            src={database[index].img}
+            alt="Obraz"
+            objectFit="cover"
+            width={250}
+            height={250}
+          />
+        </Link>
+        <Box sx={{ marginInline: "16px" }}>
+          <Link
+            className={`${styles.link} ${styles.title}`}
+            href={`/produkt/${database[index].id}`}
+          >
+            <Typography sx={{ fontSize: "0.9rem" }}>
+              {database[index].title}
+            </Typography>
+          </Link>
+          <br />
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              bottom: "12px",
+              position: "absolute",
+              width: "270px",
+            }}
+          >
+            <Typography
+              sx={{
+                marginBlock: "auto",
+                marginLeft: "2px",
+                fontSize: "1.4rem",
+                borderBottom: 1,
+              }}
+            >
+              {database[index].price} zł
+            </Typography>
+            <IconButton
+              onClick={() => dispatch(addToCart({ id: database[index].id }))}
+              aria-label="add-to-cart"
+              size="large"
+              sx={{
+                border: 1,
+                borderColor: "transparent",
+                transition: "0.2s ease",
+
+                "&:hover": {
+                  transition: "0.2s ease",
+                  borderColor: "text.primary",
+                  color: "#BE931B",
+                },
+              }}
+            >
+              <AddShoppingCartRoundedIcon fontSize="inherit" color="inherit" />
+            </IconButton>
+          </Box>
+        </Box>
+      </Box>
+    );
+  };
 
   return (
     <>
@@ -61,7 +152,9 @@ const Produkt: NextPage = () => {
             <Image
               src={
                 id !== undefined &&
-                (Array.isArray(id) ? imgPlaceholder : database[id - 1].img)
+                (Array.isArray(id)
+                  ? imgPlaceholder
+                  : database[Number(id) - 1].img)
               }
               alt="Produkt"
               objectFit="cover"
@@ -87,7 +180,7 @@ const Produkt: NextPage = () => {
           >
             <Box sx={{ margin: "20px" }}>
               <Typography variant="h5" fontWeight="bold">
-                {id !== undefined && database[id - 1].title}
+                {id !== undefined && database[Number(id) - 1].title}
               </Typography>
               <Box
                 sx={{
@@ -100,7 +193,7 @@ const Produkt: NextPage = () => {
                 <Link
                   href={`/results?brand=${
                     id !== undefined &&
-                    options.brands.indexOf(database[id - 1].brand)
+                    options.brands.indexOf(database[Number(id) - 1].brand)
                   }`}
                   style={{
                     textDecoration: "none",
@@ -116,7 +209,7 @@ const Produkt: NextPage = () => {
                       },
                     }}
                   >
-                    {id !== undefined && database[id - 1].brand}
+                    {id !== undefined && database[Number(id) - 1].brand}
                   </Typography>
                 </Link>
                 <Divider
@@ -126,7 +219,7 @@ const Produkt: NextPage = () => {
                 />
                 <Link
                   href={`/results?country=${
-                    id !== undefined && database[id - 1].country
+                    id !== undefined && database[Number(id) - 1].country
                   }`}
                   style={{
                     textDecoration: "none",
@@ -141,13 +234,13 @@ const Produkt: NextPage = () => {
                     }}
                   >
                     {id !== undefined &&
-                      options.countries[database[id - 1].country]}
+                      options.countries[database[Number(id) - 1].country]}
                   </Typography>
                 </Link>
               </Box>
               <Divider orientation="horizontal" flexItem />
               <Typography variant="h6" marginTop="25px">
-                Cena: {id !== undefined && database[id - 1].price} zł
+                Cena: {id !== undefined && database[Number(id) - 1].price} zł
               </Typography>
               <Box
                 sx={{
@@ -215,9 +308,11 @@ const Produkt: NextPage = () => {
                   <Box
                     onClick={() => {
                       for (let step = 0; step < quantity; step++) {
-                        dispatch(addToCart({ id: id }));
+                        dispatch(addToCart({ id: Number(id) }));
                       }
                       setQuantity(1);
+
+                      console.log(cart);
                     }}
                     sx={{
                       bgcolor: "primary.main",
@@ -250,6 +345,8 @@ const Produkt: NextPage = () => {
           </Box>
         </Box>
 
+        {/* DESCRIPTION */}
+
         <Box
           sx={{
             bgcolor: "background.paper",
@@ -257,10 +354,55 @@ const Produkt: NextPage = () => {
             borderColor: "text.primary  ",
             borderRadius: "15px",
             marginBlock: "25px",
-            width: "650px",
-            height: "650px",
+            width: "1400px",
           }}
-        ></Box>
+        >
+          <Typography variant="h4" sx={{ margin: "20px" }}>
+            Opis produktu:
+          </Typography>
+          <Typography sx={{ margin: "20px", fontSize: "1.4rem" }}>
+            {id !== undefined && text.descriptions[id % 5]}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            width: "1400px",
+            height: "150px",
+            display: "flex",
+          }}
+        >
+          <Typography
+            variant="h2"
+            sx={{
+              marginInline: "auto",
+              marginTop: "20px",
+              fontWeight: "bold",
+              textShadow:
+                "-1px -1px 0 #BE931B, 1px -1px 0 #BE931B, -1px 1px 0 #BE931B, 1px 1px 0 #BE931B",
+            }}
+          >
+            Spróbuj również:
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            width: "1400px",
+            marginBlock: "25px",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+          }}
+        >
+          <HomeProduct index={435} />
+          <HomeProduct index={111} />
+          <HomeProduct index={344} />
+          <HomeProduct index={14} />
+          <HomeProduct index={97} />
+          <HomeProduct index={224} />
+          <HomeProduct index={290} />
+          <HomeProduct index={512} />
+        </Box>
       </ContentContainer>
     </>
   );

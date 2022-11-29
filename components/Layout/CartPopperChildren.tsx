@@ -49,6 +49,7 @@ const CountryPopperChildren: FunctionComponent<CountryPopperChildrenProps> = ({
     return (
       <ListItem style={style} key={index} component="div">
         <Link
+          onClick={() => handleClose()}
           href={`/produkt/${cart[index].id}`}
           style={{
             color: "#212121",
@@ -119,6 +120,7 @@ const CountryPopperChildren: FunctionComponent<CountryPopperChildrenProps> = ({
                 {renderRow}
               </FixedSizeList>
               <Link
+                onClick={() => handleClose()}
                 href="/koszyk"
                 style={{
                   color: "#212121",

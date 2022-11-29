@@ -2,7 +2,9 @@ import * as React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import createEmotionServer from "@emotion/server/types/create-instance";
 import theme from "../../styles/theme";
-import createEmotionCache from "../../lib/createEmotionCache";
+// import createEmotionCache from "../../lib/createEmotionCache";
+
+//idk just commented emotioncache, don't know what it changes
 
 export default class MyDocument extends Document {
   render() {
@@ -57,13 +59,18 @@ MyDocument.getInitialProps = async (ctx) => {
   // Render app and page and get the context of the page with collected side effects.
   const originalRenderPage = ctx.renderPage;
 
-  const cache = createEmotionCache();
-  const { extractCriticalToChunks } = createEmotionServer(cache);
+  // const cache = createEmotionCache();
+  // const { extractCriticalToChunks } = createEmotionServer(cache);
 
   ctx.renderPage = () =>
     originalRenderPage({
       enhanceApp: (App: any) => (props) =>
-        <App emotionCache={cache} {...props} />,
+        (
+          <App
+            //  emotionCache={cache}
+            {...props}
+          />
+        ),
     });
 
   const initialProps = await Document.getInitialProps(ctx);
