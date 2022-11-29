@@ -5,14 +5,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-import { Typography, Divider, Box, IconButton } from "@mui/material";
+import { Typography, Divider, Box, IconButton, Stack } from "@mui/material";
 
 import { useAppDispatch } from "../redux/hooks";
 import { addToCart } from "../redux/cartSlice";
 
 import AddShoppingCartRoundedIcon from "@mui/icons-material/AddShoppingCartRounded";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
-import { FunctionComponent, useState } from "react";
+import PhoneIcon from "@mui/icons-material/Phone";
+import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+
+import { FunctionComponent, ReactNode } from "react";
 import type { NextPage } from "next";
 
 import Carousel from "react-material-ui-carousel";
@@ -27,6 +32,24 @@ const staticProds = [514, 408, 424, 61, 289, 517];
 interface HomeProductProps {
   index: number;
 }
+interface BottomInfoProps {
+  children: ReactNode;
+}
+
+const BottomInfo: FunctionComponent<BottomInfoProps> = ({ children }) => (
+  <Link href="/regulamin" style={{ textDecoration: "none" }}>
+    <Typography
+      sx={{
+        color: "#7d7d7d",
+        userSelect: "none",
+
+        "&:hover": { textDecoration: "underline" },
+      }}
+    >
+      {children}
+    </Typography>
+  </Link>
+);
 
 //COMPONENT
 
@@ -139,9 +162,10 @@ const Home: NextPage = () => {
             borderRadius: "15px",
           }}
         >
-          <Box component="img" src="/bground-h.png" alt="Carousel"></Box>
-          <Box component="img" src="/bground-h.png" alt="Carousel"></Box>
-          <Box component="img" src="/bground-h.png" alt="Carousel"></Box>
+          <Box component="img" src="/carousel/1.png" alt="Carousel"></Box>
+          <Box component="img" src="/carousel/2.png" alt="Carousel"></Box>
+          <Box component="img" src="/carousel/1.png" alt="Carousel"></Box>
+          <Box component="img" src="/carousel/2.png" alt="Carousel"></Box>
         </Carousel>
 
         <Box
@@ -172,6 +196,7 @@ const Home: NextPage = () => {
             height: "600px",
             display: "flex",
             flexDirection: "row",
+            marginBottom: "35px",
           }}
         >
           {/* HOTSHOT */}
@@ -289,6 +314,124 @@ const Home: NextPage = () => {
               <HomeProduct key={index} index={element} />
             ))}
           </Box>
+        </Box>
+        {/* MORE PRODUCTS BUTTON */}
+        <Box
+          sx={{
+            width: "1400px",
+            display: "flex",
+            flexDirection: "row-reverse",
+            marginBottom: "150px",
+          }}
+        >
+          <Link href="/results" style={{ textDecoration: "none" }}>
+            <Box
+              sx={{
+                bgcolor: "primary.main",
+                border: 1,
+                width: "300px",
+                height: "60px",
+                borderRadius: "30px",
+                textAlign: "center",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "text.primary",
+              }}
+            >
+              <Typography
+                sx={{
+                  userSelect: "none",
+                  color: "text.primary",
+                }}
+              >
+                Przeglądaj produkty
+              </Typography>
+              <ArrowForwardIosRoundedIcon />
+            </Box>
+          </Link>
+        </Box>
+
+        {/* BOTTOM INFO */}
+        <Divider orientation="horizontal" flexItem />
+        <Box
+          sx={{
+            width: "1400px",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
+            marginBlock: "70px",
+          }}
+        >
+          <Stack
+            direction="column"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            spacing={2}
+          >
+            <Typography fontWeight="bold">Zamówienia</Typography>
+            <BottomInfo>Dostawa</BottomInfo>
+            <BottomInfo>Dostawa</BottomInfo>
+            <BottomInfo>Raty</BottomInfo>
+            <BottomInfo>Zwroty i reklamacje</BottomInfo>
+            <BottomInfo>Najczęściej zadawane pytania</BottomInfo>
+          </Stack>
+
+          <Stack
+            direction="column"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            spacing={2}
+          >
+            <Typography fontWeight="bold">Promocje i inspiracje</Typography>
+            <BottomInfo>Wyprzedaż</BottomInfo>
+            <BottomInfo>Promocje</BottomInfo>
+            <BottomInfo>Karty podarunkowe</BottomInfo>
+            <BottomInfo>Poradniki</BottomInfo>
+            <BottomInfo>Aktualności</BottomInfo>
+          </Stack>
+
+          <Stack
+            direction="column"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            spacing={2}
+          >
+            <Typography fontWeight="bold">Pastopedia</Typography>
+            <BottomInfo>O nas</BottomInfo>
+            <BottomInfo>Regulamin</BottomInfo>
+            <BottomInfo>Polityka prywatności</BottomInfo>
+            <BottomInfo>Kontakt</BottomInfo>
+            <BottomInfo>Forum</BottomInfo>
+          </Stack>
+          {/*  CONTACT */}
+
+          <Stack
+            direction="column"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            spacing={2}
+          >
+            <Typography fontWeight="bold">Kontakt</Typography>
+            <br />
+            <Stack direction="row" alignItems="center" gap={1}>
+              <PhoneIcon />
+              <Typography fontSize="1.2rem">34 377 00 00</Typography>
+            </Stack>
+
+            <Stack direction="row" alignItems="center" gap={1}>
+              <EmailRoundedIcon />
+              <Typography fontSize="1.2rem">sklep@pastopedia.pl</Typography>
+            </Stack>
+
+            <Stack direction="row" alignItems="center" gap={1}>
+              <LocationOnIcon />
+              <Stack direction="column" alignItems="start">
+                <Typography>Strzelców Bytomskich 3</Typography>
+                <Typography>40-310 Katowice</Typography>
+              </Stack>
+            </Stack>
+          </Stack>
         </Box>
       </ContentContainer>
     </>

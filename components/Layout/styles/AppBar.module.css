@@ -22,13 +22,8 @@
   grid-row: 1;
 }
 
-/* //   transition: scrollTrigger ? "1.2s ease-in" : "0.3s ease",
-//   transitionDelay: 0,
-//   opacity: scrollTrigger ? 1 : 0, */
-
 .logo_transition_white {
   transition: 0.5s ease;
-  /* transition-delay: 200ms; */
   opacity: 0;
 }
 

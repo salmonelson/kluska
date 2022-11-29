@@ -76,7 +76,12 @@ const CountryPopperChildren: FunctionComponent<CountryPopperChildrenProps> = ({
             />
 
             <Typography
-              sx={{ fontSize: "0.95rem", whiteSpace: "break-spaces" }}
+              sx={{
+                fontSize: "0.95rem",
+                whiteSpace: "break-spaces",
+                marginLeft: "6px",
+                marginTop: "8px",
+              }}
             >
               {database[cart[index].id - 1].title}
             </Typography>
@@ -111,7 +116,7 @@ const CountryPopperChildren: FunctionComponent<CountryPopperChildrenProps> = ({
           ) : (
             <>
               <FixedSizeList
-                height={cart.length < 3 ? 170 : 280}
+                height={cart.length == 1 ? 90 : cart.length == 2 ? 170 : 280}
                 width={360}
                 itemSize={80}
                 itemCount={cart.length}

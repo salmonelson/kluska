@@ -33,7 +33,7 @@ const Koszyk: NextPage = () => {
     <>
       <Head>
         <title>Koszyk - Pastopedia</title>
-        <meta name="description" content="result page" />
+        <meta name="description" content="shopping cart page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ContentContainer>

@@ -4,7 +4,7 @@ import createEmotionServer from "@emotion/server/types/create-instance";
 import theme from "../../styles/theme";
 // import createEmotionCache from "../../lib/createEmotionCache";
 
-//idk just commented emotioncache, don't know what it changes
+//idk just commented crateEmotionCache, don't know what it changes
 
 export default class MyDocument extends Document {
   render() {

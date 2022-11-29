@@ -3,8 +3,7 @@
 import { FunctionComponent, ReactNode } from "react";
 
 import Navigation from "./Navigation";
-
-//PROPS INTERFACES
+import Footer from "./Footer";
 
 interface LayoutProps {
   children: ReactNode;
@@ -18,6 +17,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
       {/* Main contents of page */}
       <main>{children}</main>
       {/* Footer */}
+      <Footer />
     </div>
   );
 };
