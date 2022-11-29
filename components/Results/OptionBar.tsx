@@ -1,17 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 
-import {
-  Typography,
-  Stack,
-  Box,
-  FormGroup,
-  Checkbox,
-  FormControlLabel,
-  SxProps,
-} from "@mui/material";
-import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
-import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
+import { Typography, Stack, Box, FormGroup, SxProps } from "@mui/material";
 
 import { FunctionComponent, useEffect, useState } from "react";
 

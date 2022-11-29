@@ -5,12 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import { FunctionComponent, useState } from "react";
 
-import {
-  useQueryParams,
-  StringParam,
-  withDefault,
-  DelimitedNumericArrayParam,
-} from "use-query-params";
+import { useQueryParams, StringParam } from "use-query-params";
 import Router, { useRouter } from "next/router";
 
 import theme from "../../styles/theme";
@@ -57,10 +52,10 @@ const textFieldStyles: SxProps = {
       width: "180px",
     },
     [theme.breakpoints.up("lg")]: {
-      width: "240px",
+      width: "490px",
     },
     [theme.breakpoints.up("xl")]: {
-      width: "540px",
+      width: "730px",
     },
   },
 };
@@ -102,8 +97,6 @@ const SearchBar: FunctionComponent = ({}) => {
   const [countryOpen, setCountryOpen] = useState(false);
   const [searchVal, setSearchVal] = useState("");
 
-  const router = useRouter();
-
   const [query, setQuery] = useQueryParams({
     search: StringParam,
     country: StringParam,
@@ -113,7 +106,7 @@ const SearchBar: FunctionComponent = ({}) => {
     setQuery(
       {
         search: searchVal,
-        country: countryVal == 0 ? undefined : countryVal - 1,
+        country: countryVal == 0 ? undefined : String(countryVal - 1),
       },
       "replace"
     );

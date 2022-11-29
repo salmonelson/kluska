@@ -11,8 +11,11 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
+import PhoneIcon from "@mui/icons-material/Phone";
+import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 
 import theme from "../../styles/theme";
 import Link from "next/link";
@@ -20,6 +23,7 @@ import Link from "next/link";
 import LowerBar from "./LowerBar";
 import SearchBar from "./SearchBar";
 import CartPopper from "./CartPopper";
+import MyPopperNew from "./MyPopperNew";
 
 //STYLES
 
@@ -54,6 +58,8 @@ const Navigation: FunctionComponent = () => {
     threshold: 0,
     disableHysteresis: false,
   });
+
+  const [contactPopperOpen, setContactPopperOpen] = useState(false);
 
   //RETURN
 
@@ -106,25 +112,58 @@ const Navigation: FunctionComponent = () => {
 
           <SearchBar />
 
-          <Box
-            sx={{
-              ...searchBarStyles,
-              m: 1,
-              minWidth: "3rem",
-              width: "3rem",
-              textAlign: "center",
-              "&:hover": {
-                cursor: "pointer",
-              },
-            }}
-          >
-            <SupportAgentRoundedIcon
-              sx={{
-                fontSize: "2rem",
-                marginTop: "0.4rem",
-              }}
-            />
-          </Box>
+          <MyPopperNew
+            buttonChildren={
+              <SupportAgentRoundedIcon
+                sx={{
+                  fontSize: "2rem",
+                  margin: "auto",
+                }}
+              />
+            }
+            popperChildren={
+              <Box
+                sx={{
+                  bgcolor: "background.paper",
+                  borderColor: "text.primary",
+                  border: 1,
+                  borderRadius: "1.5rem 0 1.5rem 1.5rem",
+                }}
+              >
+                <Stack
+                  direction="column"
+                  justifyContent="flex-start"
+                  alignItems="flex-start"
+                  spacing={2}
+                  margin="10px"
+                >
+                  <Typography fontWeight="bold">Kontakt</Typography>
+                  <Stack direction="row" alignItems="center" gap={1}>
+                    <PhoneIcon />
+                    <Typography fontSize="1.2rem">34 377 00 00</Typography>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" gap={1}>
+                    <EmailRoundedIcon />
+                    <Typography fontSize="1.2rem">
+                      sklep@pastopedia.pl
+                    </Typography>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" gap={1}>
+                    <LocationOnIcon />
+                    <Stack direction="column" alignItems="start">
+                      <Typography>Strzelców Bytomskich 3</Typography>
+                      <Typography>40-310 Katowice</Typography>
+                    </Stack>
+                  </Stack>
+                </Stack>
+              </Box>
+            }
+            isCategoryOpen={contactPopperOpen}
+            handleCategoryOpen={() => setContactPopperOpen(true)}
+            handleCategoryClose={() => setContactPopperOpen(false)}
+          />
 
           <CartPopper />
         </Stack>
